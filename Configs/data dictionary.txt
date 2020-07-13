@@ -1,0 +1,374 @@
+Data Dictionary:
+
+Data is presented as [TABLE NAME] [COLUMN NAME] [COLUMN DATA TYPE] [COLUMN DESCRIPTION]
+
+dimTeams team_id BIGINT PRIMARY KEY unique identifier for each team
+dimTeams team_country TEXT the country which the team is from
+dimTeams team_founded_date DATE the year in which the team was founded
+dimTeams is_national_team BOOL whether or not the team is a national team
+dimTeams team_logo TEXT a url link to the image of the teams logo
+dimTeams team_name TEXT the team name
+dimTeams team_venue_address the team address
+dimTeams team_venue_capacity the crowd capacity of the teams venue/stadium
+dimTeams team_venue_city TEXT the city in which the teams venue resides
+dimTeams team_venue_name TEXT the name of the teams venue/stadium
+dimTeams team_venue_surface TEXT the surface type of the venue/stadium
+dimTeams league_name TEXT the name of the league the team is currently competing in
+dimTeams league_id BIGINT REFERENCES dimleague(league_id) unqiue identifier for the league
+dimTeams last_data_update TIMESTAMP last date that the data was updated
+
+
+dimPlayers player_id BIGINT PRIMARY KEY unique identifier for each player
+dimPlayers player_age INT player age at the time of extracting data from the api endpoint
+dimPlayers player_birth_country TEXT the country in which the player was born
+dimPlayers player_birth_place TEXT the place in which the player was born
+dimPlayers player_firstname TEXT the players first name
+dimPlayers player_height TEXT height of the player in inches
+dimPlayers player_lastname TEXT the players surname
+dimPlayers player_nationality TEXT the players chosen nationality
+dimPlayers player_current_squad_number INT current squad number for the player at the time of extraction
+dimPlayers player_full_name TEXT players first and second name combined
+dimPlayers player_current_position TEXT players current position at the time of extraction
+dimPlayers player_weight TEXT the players weight in kg
+dimPlayers player_current_team_id BIGINT REFERENCES dimTeams(team_id) unique identifier for team
+dimPlayers Preferred_Foot TEXT the players preferred foot for striking the ball
+dimPlayers International_Reputation INT players international reputation of their ability 
+dimPlayers last_data_update TIMESTAMP last date that the data was updated
+
+
+dimLeague league_id BIGINT PRIMARY KEY unique identifier for each league
+dimLeague league_description TEXT the name / title of the league
+dimLeague last_data_update TIMESTAMP last date that the data was updated
+
+
+dimStandings standing_key BIGINT IDENTITY(1,1) PRIMARY KEY unique identifier for each standings entry
+dimStandings rank_status TEXT describes if the current league position results in special conditions such as relegation or promotion
+dimStandings form TEXT a string of characters representing a teams recent results; W:Win D:Draw L:Lose
+dimStandings lastUpdate_api TEXT the date the data provided by the API Endpoint was last updated
+dimStandings rank INT A team's current ranking in the league at a given time
+dimStandings team_id BIGINT REFERENCES dimTeams(team_id) unique identifier for each team
+dimStandings league_id BIGINT REFERENCES dimleague(league_id) unique identifier for each league
+dimStandings gameweek INT the gameweek number at which the standings relate to over time
+dimStandings last_data_update TIMESTAMP last date that the data was updated
+
+
+dimFixtures fixture_id BIGINT PRIMARY KEY unique identifier for each fixture
+dimFixtures awayTeam_team_id BIGINT REFERENCES dimTeams(team_id) unique identifier for each team
+dimFixtures elapsed INT the number of minutes that have elapsed in the match (will always be 90 unless extracted while the game is in play)
+dimFixtures event_date DATE the date at which the fixture occured
+dimFixtures event_timestamp TIMESTAMP the date and time at which the fixture occured
+dimFixtures firstHalfStart TIMESTAMP the date and time at which the first half of the fixture occured
+dimFixtures homeTeam_team_id BIGINT REFERENCES dimTeams(team_id) unique identifier for the team playing in their home stadium
+dimFixtures league_id BIGINT REFERENCES dimleague(league_id) unique identifier for each league
+dimFixtures goalsAwayTeam INT the number of goals scored by the away team
+dimFixtures goalsHomeTeam INT the number of goals scored by the home team
+dimFixtures score_fulltime TEXT the score of the game at full time
+dimFixtures score_halftime TEXT the score of the game at half time
+dimFixtures secondHalfStart TIMESTAMP the date and time at which the second half of the fixture occured
+dimFixtures referee TEXT the name of the referee officiating the game
+dimFixtures fixture_round TEXT the round during which the fixture occured during the season
+dimFixtures fixture_status TEXT 
+dimFixtures fixture_statusShort TEXT,
+dimFixtures fixture_venue TEXT the venue in which the fixture took place
+dimFixtures fixture_result TEXT the result of the fixture i.e. home win, draw, away win
+dimFixtures fixture_awayTeam_points INT the number of points accumulated by the away team based on the match result; Win:3 Draw:1
+dimFixtures fixture_homeTeam_points INT the number of points accumulated by the home team based on the match result; Win:3 Draw:1
+dimFixtures last_data_update TIMESTAMP last date that the data was updated
+
+
+dimRounds gameweek_round_id BIGINT IDENTITY(1,1) PRIMARY KEY unique identifier for the gameweek round of the season
+dimRounds fixture_round_description TEXT description of the round e.g. Gameweek 1
+dimRounds gameweek_start_date DATE the start date of the round which is the earliest date of the first fixture in the round
+dimRounds gameweek_end_date DATE  the end date of the round which is the latest date of the last fixture in the round
+dimRounds league_id BIGINT REFERENCES dimleague(league_id) unqiue identifier for each league
+dimRounds last_data_update TIMESTAMP last date that the data was updated
+
+
+dimSquads squad_submit_id BIGINT IDENTITY(1,1) PRIMARY KEY unique identifier for each player in a squad submission
+dimSquads player_squad_number INT the players squad number for the submission
+dimSquads player_id BIGINT REFERENCES dimPlayers(player_id) unique identifier for each player
+dimSquads team_id BIGINT REFERENCES dimTeams(team_id) unique identifier for each team
+dimSquads league_id BIGINT REFERENCES dimleague(league_id) unique identifier for each league
+dimSquads last_data_update TIMESTAMP last date that the data was updated
+
+
+factSeasonMetricsTeams season_teams_metrics_id BIGINT IDENTITY(1,1) PRIMARY KEY unique identifier for each teams season overall metrics
+factSeasonMetricsTeams team_id BIGINT REFERENCES dimTeams(team_id) unique identifier for each team
+factSeasonMetricsTeams league_id BIGINT REFERENCES dimleague(league_id) unique identifier for each league 
+factSeasonMetricsTeams overall_draws INT the overall number of games drawn for a team in a league season
+factSeasonMetricsTeams overall_goalsAgainst INT the overall number of goals conceded for a team in a league season
+factSeasonMetricsTeams overall_goalsFor INT the overall number of goals scored for a team in a league season
+factSeasonMetricsTeams overall_lose INT the overall number of games won for a team in a league season
+factSeasonMetricsTeams overall_matchesPlayed INT the overall number of matches played for a team in a league season
+factSeasonMetricsTeams overall_wins INT the overall number of matches won for a team in a league season
+factSeasonMetricsTeams away_draws INT the overall number of away draws for a team in a league season
+factSeasonMetricsTeams away_goalsAgainst INT the overall number of away goals conceded for a team in a league season
+factSeasonMetricsTeams away_goalsFor INT the overall number of away goals scored for a team in a league season
+factSeasonMetricsTeams away_lose INT the overall number of away games lost for a team in a league season
+factSeasonMetricsTeams away_matchesPlayed INT the overall number of away games played for a team in a league season
+factSeasonMetricsTeams away_wins INT the overall number of away games won for a team in a league season
+factSeasonMetricsTeams goalsDiff INT the difference between total goals scored and total goals conceded
+factSeasonMetricsTeams home_draws INT the overall number of home draws for a team in a league season
+factSeasonMetricsTeams home_goalsAgainst INT the overall number of home goals conceded for a team in a league season
+factSeasonMetricsTeams home_goalsFor INT the overall number of home goals scored for a team in a league season
+factSeasonMetricsTeams home_lose INT the overall number of away games lost for a team in a league season
+factSeasonMetricsTeams home_matchesPlayed INT the overall number of home games played for a team in a league season
+factSeasonMetricsTeams home_wins INT the overall number of home games won for a team in a league season
+factSeasonMetricsTeams lastUpdate TEXT the date the data provided by the API Endpoint was last updated
+factSeasonMetricsTeams points INT the overall number of points accumulated by a team in a league season
+factSeasonMetricsTeams last_data_update TIMESTAMP last date that the data was updated
+
+
+factSeasonMetricsPlayers season_player_metrics_id BIGINT IDENTITY(1,1) PRIMARY KEY unique identifier for each players overall season metrics
+factSeasonMetricsPlayers player_id BIGINT REFERENCES dimPlayers(player_id) unique identifier for each player
+factSeasonMetricsPlayers team_id BIGINT REFERENCES dimTeams(team_id) unique identifier for each team
+factSeasonMetricsPlayers league_id BIGINT REFERENCES dimleague(league_id) unique identifier for each league
+factSeasonMetricsPlayers season_captain INT the total number of times a player has been captain in a game throughout a season
+factSeasonMetricsPlayers season_cards_red INT the total number of red cards a player has accumulated throughout a season
+factSeasonMetricsPlayers season_cards_yellow INT the total number of yellow cards a player has accumulated throughout a season
+factSeasonMetricsPlayers season_cards_yellowred INT the total number of red and yellow cards a player has accumulated throughout a season
+factSeasonMetricsPlayers season_dribbles_attempts INT the total number of times a player has tried to dribble the ball past an opposition player throughout a season
+factSeasonMetricsPlayers season_dribbles_success INT the total number of times a player has succesfully dribbled the ball past an opposition player throughout a season
+factSeasonMetricsPlayers season_duels_total INT the total number of times a player has contested the ball with an opposition player throughout a season
+factSeasonMetricsPlayers season_duels_won INT the total number of times a player has won a contest for the ball with an opposition player throughout a season
+factSeasonMetricsPlayers season_fouls_committed INT the total number of fouls a player has committed throughout a season
+factSeasonMetricsPlayers season_fouls_drawn INT the total number of times a player has been fouled throughout a season
+factSeasonMetricsPlayers season_games_appearances INT the total number of games a player has played in throughout a season
+factSeasonMetricsPlayers season_games_lineups INT the total number of games a player has been included in the starting 11 throughout a season
+factSeasonMetricsPlayers season_games_minutes_played INT the total number of minutes a player has played in games throughout a season
+factSeasonMetricsPlayers season_goals_assists INT the total number of goal assists a player has provided throughout a season
+factSeasonMetricsPlayers season_goals_conceded INT the total number of goals a player and/or their team has conceded when that player was on the pitch, throughout a season
+factSeasonMetricsPlayers season_goals_total INT the total number of goals a player has scored throughout a season
+factSeasonMetricsPlayers season_injured TEXT the total number of times a player has been injured in a season
+factSeasonMetricsPlayers season_passes_accuracy INT the passing accuracy of a player throughout a season
+factSeasonMetricsPlayers season_passes_key INT the total number of key passes provided by a player throughout a season
+factSeasonMetricsPlayers season_passes_total INT the total number of passes by a player throughout a season
+factSeasonMetricsPlayers season_penalty_committed INT the total number of pentalties conceded by a player in a season
+factSeasonMetricsPlayers season_penalty_missed INT the total number of pentalties missed by a player in a season
+factSeasonMetricsPlayers season_penalty_saved INT the total number of pentalties saved by a player in a season
+factSeasonMetricsPlayers season_penalty_success INT the total number of pentalties scored by a player in a season
+factSeasonMetricsPlayers season_penalty_won INT the total number of pentalties won by a player in a season
+factSeasonMetricsPlayers season_rating NUMERIC players overall rating for a season
+factSeasonMetricsPlayers season_shots_on INT the total number of shots on target by a player throughout a season
+factSeasonMetricsPlayers season_shots_total INT the total number of attempted shots by a player throughout a season
+factSeasonMetricsPlayers season_substitutes_bench INT the total number of times a player has featured on the subsitutes bench throughout a season
+factSeasonMetricsPlayers season_substitutes_in INT the total number of times a player has been substituted into a game throughout a season
+factSeasonMetricsPlayers season_substitutes_out INT the total number of times a player has been substituted out of a game throughout a season
+factSeasonMetricsPlayers season_tackles_blocks INT the total number of times a player has made a blocking tackle throughout a season
+factSeasonMetricsPlayers season_tackles_interceptions INT the total number of times a player has made an interception throughout a season
+factSeasonMetricsPlayers season_tackles_total INT the total number of tackles a player has made throughout a season
+factSeasonMetricsPlayers fifa_Overall INT players overall FIFA 19 rating
+factSeasonMetricsPlayers fifa_Potential INT players potential maximum overall FIFA 19 rating
+factSeasonMetricsPlayers fifa_Value TEXT players monetary transfer value in FIFA 19
+factSeasonMetricsPlayers fifa_Wage TEXT players salary value in FIFA 19
+factSeasonMetricsPlayers fifa_Weak_Foot_rating INT the quality of a players week foot at striking the ball
+factSeasonMetricsPlayers fifa_Skill_Moves_rating INT the quality and range of a players skill moves
+factSeasonMetricsPlayers Work_Rate TEXT the quality of a players work rate in a game
+factSeasonMetricsPlayers fifa_LS_rating INT player rating when playing as a Left Striker
+factSeasonMetricsPlayers fifa_ST_rating INT player rating when playing as a Striker
+factSeasonMetricsPlayers fifa_RS_rating INT player rating when playing as a Right Striker
+factSeasonMetricsPlayers fifa_LW_rating INT player rating when playing as a Left Winger
+factSeasonMetricsPlayers fifa_LF_rating INT player rating when playing as a Left Forward
+factSeasonMetricsPlayers fifa_CF_rating INT player rating when playing as a Centre Forward
+factSeasonMetricsPlayers fifa_RF_rating INT player rating when playing as a Right Forward
+factSeasonMetricsPlayers fifa_RW_rating INT player rating when playing as a Right Winger
+factSeasonMetricsPlayers fifa_LAM_rating INT player rating when playing as a Left Attacking Midfielder
+factSeasonMetricsPlayers fifa_CAM_rating INT player rating when playing as a Central Attacking Midfielder
+factSeasonMetricsPlayers fifa_RAM_rating INT player rating when playing as a Right Attacking Midfielder
+factSeasonMetricsPlayers fifa_LM_rating INT player rating when playing as a Left Midfielder
+factSeasonMetricsPlayers fifa_LCM_rating INT player rating when playing as a Left Central Midfielder
+factSeasonMetricsPlayers fifa_CM_rating INT player rating when playing as a Central Midfielder
+factSeasonMetricsPlayers fifa_RCM_rating INT player rating when playing as a Right Central Midfielder
+factSeasonMetricsPlayers fifa_RM_rating INT player rating when playing as a Right Midfielder
+factSeasonMetricsPlayers fifa_LWB_rating INT player rating when playing as a Left Wing Back
+factSeasonMetricsPlayers fifa_LDM_rating INT player rating when playing as a Left Defensive Midfielder
+factSeasonMetricsPlayers fifa_CDM_rating INT player rating when playing as a Central Defensive Midfielder
+factSeasonMetricsPlayers fifa_RDM_rating INT player rating when playing as a Right Defensive Midfielder
+factSeasonMetricsPlayers fifa_RWB_rating INT player rating when playing as a Right Wing Back
+factSeasonMetricsPlayers fifa_LB_rating INT player rating when playing as a Left Back
+factSeasonMetricsPlayers fifa_LCB_rating INT player rating when playing as a Left Centre Back
+factSeasonMetricsPlayers fifa_CB_rating INT player rating when playing as a Centre Back
+factSeasonMetricsPlayers fifa_RCB_rating INT player rating when playing as a Right Centre Back
+factSeasonMetricsPlayers fifa_RB_rating INT player rating when playing as a Right Back
+factSeasonMetricsPlayers fifa_Crossing_rating INT player rating for the crossing attribute
+factSeasonMetricsPlayers fifa_Finishing_rating INT player rating for the finishing attribute
+factSeasonMetricsPlayers fifa_HeadingAccuracy_rating INT player rating for the heading accuracy attribute
+factSeasonMetricsPlayers fifa_ShortPassing_rating INT player rating for the short passing attribute
+factSeasonMetricsPlayers fifa_Volleys_rating INT player rating for the volleying attribute
+factSeasonMetricsPlayers fifa_Dribbling_rating INT player rating for the dribbling attribute
+factSeasonMetricsPlayers fifa_Curve_rating INT player rating for the curve attribute
+factSeasonMetricsPlayers fifa_FKAccuracy_rating INT player rating for the free kick accuracy attribute
+factSeasonMetricsPlayers fifa_LongPassing_rating INT player rating for the long passing attribute
+factSeasonMetricsPlayers fifa_BallControl_rating INT player rating for the ball control attribute
+factSeasonMetricsPlayers fifa_Acceleration_rating INT player rating for the acceleration attribute
+factSeasonMetricsPlayers fifa_SprintSpeed_rating INT player rating for the sprint speed attribute
+factSeasonMetricsPlayers fifa_Agility_rating INT player rating for the agility attribute
+factSeasonMetricsPlayers fifa_Reactions_rating INT player rating for the reactions attribute
+factSeasonMetricsPlayers fifa_Balance_rating INT player rating for the balance attribute
+factSeasonMetricsPlayers fifa_ShotPower_rating INT player rating for the shot power attribute
+factSeasonMetricsPlayers fifa_Jumping_rating INT player rating for the jumping attribute
+factSeasonMetricsPlayers fifa_Stamina_rating INT player rating for the stamina attribute
+factSeasonMetricsPlayers fifa_Strength_rating INT player rating for the strength attribute
+factSeasonMetricsPlayers fifa_LongShots_rating INT player rating for the long distance shots attribute
+factSeasonMetricsPlayers fifa_Aggression_rating INT player rating for the aggression attribute
+factSeasonMetricsPlayers fifa_Interceptions_rating INT player rating for the interceptions attribute
+factSeasonMetricsPlayers fifa_Positioning_rating INT player rating for the positioning attribute
+factSeasonMetricsPlayers fifa_Vision_rating INT player rating for the vision attribute
+factSeasonMetricsPlayers fifa_Penalties_rating INT player rating for the penalties attribute
+factSeasonMetricsPlayers fifa_Composure_rating INT player rating for the composure attribute
+factSeasonMetricsPlayers fifa_Marking_rating INT player rating for the man marking attribute
+factSeasonMetricsPlayers fifa_StandingTackle_rating INT player rating for the standing tackle attribute
+factSeasonMetricsPlayers fifa_SlidingTackle_rating INT player rating for the sliding tackle attribute
+factSeasonMetricsPlayers fifa_GKDiving_rating INT player rating for the Goalkeeper diving attribute
+factSeasonMetricsPlayers fifa_GKHandling_rating INT player rating for the Goalkeeper ball handling attribute
+factSeasonMetricsPlayers fifa_GKKicking_rating INT player rating for the Goalkeeper kicking attribute
+factSeasonMetricsPlayers fifa_GKPositioning_rating INT player rating for the Goalkeeper positioning attribute
+factSeasonMetricsPlayers fifa_GKReflexes_rating INT player rating for the Goalkeeper reflexes attribute
+factSeasonMetricsPlayers fantasy_total_points INT the total fantasy points won by a player throughout the season
+factSeasonMetricsPlayers fantasy_creativity_rating NUMERIC the overall fantasy creativity rating for a player throughout the season
+factSeasonMetricsPlayers fantasy_influence_rating NUMERIC the overall fantasy influence rating for a player throughout the season
+factSeasonMetricsPlayers fantasy_threat_rating NUMERIC the overall fantasy threat rating for a player throughout the season
+factSeasonMetricsPlayers fantasy_bonus_rating INT the overall fantasy bonus rating for a player throughout the season
+factSeasonMetricsPlayers fantasy_bps_rating INT the overall fantasy bonus points rating for a player throughout the season
+factSeasonMetricsPlayers fantasy_selected_by_percent NUMERIC the overall number of fantasy team users that selected this player throughout the season
+factSeasonMetricsPlayers last_data_update TIMESTAMP the last date and time that the data was updated
+
+
+factGameweekMetricsTeams fixture_gameweek_team_stat_id BIGINT IDENTITY(1,1) PRIMARY KEY unique identifier for each teams stats for a gameweek fixture
+factGameweekMetricsTeams fixture_id BIGINT REFERENCES dimFixtures(fixture_id) unique identifier for each fixture
+factGameweekMetricsTeams awayTeam_team_id BIGINT REFERENCES dimTeams(team_id) unique identifier for each team
+factGameweekMetricsTeams homeTeam_team_id BIGINT REFERENCES dimTeams(team_id) unique identifier for each team
+factGameweekMetricsTeams Ball_Possession_away TEXT the total percentage of ball possesion in the match for the away team
+factGameweekMetricsTeams Ball_Possession_home TEXT the total percentage of ball possesion in the match for the home team
+factGameweekMetricsTeams Blocked_Shots_away INT the total number of shots blocked in the match by the away team
+factGameweekMetricsTeams Blocked_Shots_home INT the total number of shots blocked in the match by the home team
+factGameweekMetricsTeams Corner_Kicks_away INT the total number of corner kicks won in the match by the away team
+factGameweekMetricsTeams Corner_Kicks_home INT the total number of corner kicks won in the match by the home team
+factGameweekMetricsTeams Fouls_away INT the total number of fouls conceded in the match by the away team
+factGameweekMetricsTeams Fouls_home INT the total number of fouls conceded in the match by the home team
+factGameweekMetricsTeams Goalkeeper_Saves_away INT the total number of saves made in the match by the away team
+factGameweekMetricsTeams Goalkeeper_Saves_home INT the total number of saves made in the match by the home team
+factGameweekMetricsTeams Offsides_away INT the total number of offsides conceded in the match by the away team
+factGameweekMetricsTeams Offsides_home INT the total number of offsides conceded in the match by the home team
+factGameweekMetricsTeams Passes_Percent_away TEXT the total percentage of successful passes made in the match by the away team
+factGameweekMetricsTeams Passes_Percent_home TEXT the total percentage of successful passes made in the match by the home team
+factGameweekMetricsTeams Passes_accurate_away INT the total number of successful passes made in the match by the away team
+factGameweekMetricsTeams Passes_accurate_home INT the total number of successful passes made in the match by the home team
+factGameweekMetricsTeams Red_Cards_away INT the total number of red cards issued to the away team in the match
+factGameweekMetricsTeams Red_Cards_home INT the total number of red cards issued to the home team in the match
+factGameweekMetricsTeams Shots_insidebox_away INT the total number of shots taken from inside the penalty box by the away team in the match
+factGameweekMetricsTeams Shots_insidebox_home INT the total number of shots taken from inside the penalty box by the home team in the match
+factGameweekMetricsTeams Shots_off_goal_away INT the total number of shots that were off target by the away team in the match
+factGameweekMetricsTeams Shots_off_goal_home INT the total number of shots that were off target by the home team in the match
+factGameweekMetricsTeams Shots_on_goal_away INT the total number of shots on goal that were taken by the away team in the match
+factGameweekMetricsTeams Shots_on_goal_home INT the total number of shots on goal that were taken by the home team in the match
+factGameweekMetricsTeams Shots_outsidebox_away INT the total number of shots taken from outside the penalty box by the away team in the match
+factGameweekMetricsTeams Shots_outsidebox_home INT the total number of shots taken from outside the penalty box by the home team in the match
+factGameweekMetricsTeams Total_Shots_away INT the total number of shots taken by the away team in the match
+factGameweekMetricsTeams Total_Shots_home INT the total number of shots taken by the home team in the match
+factGameweekMetricsTeams Total_Passes_away INT the total number of passes made in the match by the away team
+factGameweekMetricsTeams Total_Passes_home INT the total number of passes made in the match by the home team
+factGameweekMetricsTeams Yellow_Cards_away INT the total number of yellow cards issued to the away team in the match
+factGameweekMetricsTeams Yellow_Cards_home INT the total number of yellow cards issued to the home team in the match
+factGameweekMetricsTeams last_data_update TIMESTAMP the last date and time that the data was updated
+
+
+
+factGameweekMetricsPlayers fixture_gameweek_player_stat_id BIGINT IDENTITY(1,1) PRIMARY KEY unique identifier for fixture metrics for each player
+factGameweekMetricsPlayers player_id BIGINT REFERENCES dimPlayers(player_id) unique identifier for each player
+factGameweekMetricsPlayers fixture_id BIGINT REFERENCES dimFixtures(fixture_id) unique identifier for each fixture
+factGameweekMetricsPlayers team_id BIGINT REFERENCES dimTeams(team_id) unique identifier for each team
+factGameweekMetricsPlayers player_fixture_captain BOOL True or Flase value for whether or not the player was captain for the match
+factGameweekMetricsPlayers player_fixture_cards_red INT 0 or 1 for the number of red cards issued to the player in the match
+factGameweekMetricsPlayers player_fixture_cards_yellow INT the number of yellow cards issued to the player in the match
+factGameweekMetricsPlayers player_fixture_dribbles_attempts INT the number of times a player attempted to dribble in the match
+factGameweekMetricsPlayers player_fixture_dribbles_past INT the number of times a player attempted to dribble past an opposition player in the match
+factGameweekMetricsPlayers player_fixture_dribbles_success INT the number of times a player succesfully dribbled past an opposition player in the match
+factGameweekMetricsPlayers player_fixture_duels_total INT the total number of times the player contested with another player for the ball in the match
+factGameweekMetricsPlayers player_fixture_duels_won INT the total number of times the player won a contest with another player for the ball in the match
+factGameweekMetricsPlayers player_fixture_event_id BIGINT unique identifier for the event within the match
+factGameweekMetricsPlayers player_fixture_fouls_committed INT the total number of fouls committed by a player in the match
+factGameweekMetricsPlayers player_fixture_fouls_drawn INT the total number of fouls drawn by a player in the match
+factGameweekMetricsPlayers player_fixture_goals_assists INT the total number of goal assits provided by a player in the match
+factGameweekMetricsPlayers player_fixture_goals_conceded INT the total number of goals conceded by a player and /or their team while playing in the match
+factGameweekMetricsPlayers player_fixture_goals_total INT the total number of goals scored by a player in the match
+factGameweekMetricsPlayers player_fixture_minutes_played INT the total number of minutes played by a player in the match
+factGameweekMetricsPlayers player_fixture_offsides INT the total number of times a player was called offside in the match
+factGameweekMetricsPlayers player_fixture_passes_accuracy INT the percentage accuracy of a players attempted passes in the match
+factGameweekMetricsPlayers player_fixture_passes_key INT the total number of key passes provided by a player in the match
+factGameweekMetricsPlayers player_fixture_passes_total INT the total number of attempted passes by a player in the match
+factGameweekMetricsPlayers player_fixture_penalty_committed INT the total number of penalties conceded by a player in the match
+factGameweekMetricsPlayers player_fixture_penalty_missed INT the total number of penalties missed by a player in the match
+factGameweekMetricsPlayers player_fixture_penalty_saved INT the total number of penalties saved by a player in the match
+factGameweekMetricsPlayers player_fixture_penalty_success INT the total number of penalties scored by a player in the match
+factGameweekMetricsPlayers player_fixture_penalty_won INT the total number of penalties won by a player in the match
+factGameweekMetricsPlayers player_fixture_rating NUMERIC the player overall performance rating for the match
+factGameweekMetricsPlayers player_fixture_shots_on INT the total number of shots on goal by a player in the match
+factGameweekMetricsPlayers player_fixture_shots_total INT the total number of shots attempted by a player in the match
+factGameweekMetricsPlayers player_fixture_substitute BOOL a boolean value True or False as to whether or not the player was substituted
+factGameweekMetricsPlayers player_fixture_tackles_blocks INT the total number of block tackles made by a player in the match
+factGameweekMetricsPlayers player_fixture_tackles_interceptions INT the total number of interceptions made by a player in the match
+factGameweekMetricsPlayers player_fixture_tackles_total INT the total number of tackles made by a player in the match
+factGameweekMetricsPlayers updateAt_api BIGINT the date and time of the last data update by the API endpoint
+factGameweekMetricsPlayers player_fixture_attempted_passes INT the total number of passes attempted by a player in the match
+factGameweekMetricsPlayers player_fixture_big_chances_created INT the total number of big chances created by a player in the match
+factGameweekMetricsPlayers player_fixture_big_chances_missed INT the total number of big chances missed by a player in the match
+factGameweekMetricsPlayers player_fixture_fantasy_bonus INT the total number of fantasy bonus rating earned by a player in the match
+factGameweekMetricsPlayers player_fixture_fantasy_bps INT the total number of fantasy bonus points earned by a player in the match
+factGameweekMetricsPlayers player_fixture_clean_sheets INT whether or not a player earned a clean sheet in the match i.e. 0 goals conceded
+factGameweekMetricsPlayers player_fixture_clearances_blocks_interceptions INT the total number of clearances or blocks made by a player in the match
+factGameweekMetricsPlayers player_fixture_completed_passes INT the total number of passes completed by a player in the match
+factGameweekMetricsPlayers player_fixture_fantasy_creativity_rating NUMERIC the fantasy creativity rating of a player in the match
+factGameweekMetricsPlayers player_fixture_errors_leading_to_goal INT the total number of errors leading to a goal committed by a player in the match
+factGameweekMetricsPlayers player_fixture_errors_leading_to_goal_attempt INT the total number of errors leading to a shot on goal committed by a player in the match
+factGameweekMetricsPlayers player_fixture_fantasy_influence_rating NUMERIC the fantasy influence rating of a player in the match
+factGameweekMetricsPlayers player_fixture_open_play_crosses INT the total number of open play crosses attempted by a player in the match
+factGameweekMetricsPlayers player_fixture_own_goals INT the total number of own goals scored by a player in the match
+factGameweekMetricsPlayers player_fixture_recoveries INT the total number of ball possession recoveries made by a player in the match
+factGameweekMetricsPlayers player_fixture_saves INT the total number of saves made by a player in the match
+factGameweekMetricsPlayers player_fixture_selected BIGINT the total number of fantasy player users that selected this player for this fixture
+factGameweekMetricsPlayers player_fixture_tackled INT the total number of times a player was tackled by an opponent in the match
+factGameweekMetricsPlayers player_fixture_target_missed INT the total number of shots by a player that missed the target in the match
+factGameweekMetricsPlayers player_fixture_fantasy_threat_rating INT the fantasy threat rating of a player in the match
+factGameweekMetricsPlayers player_fixture_fantasy_total_points INT the total number of fantasy points earned by a player in a match
+factGameweekMetricsPlayers player_fixture_fantasy_transfers_in BIGINT the total number of fantasy player users that transfered this player in for this fixture
+factGameweekMetricsPlayers player_fixture_fantasy_transfers_out BIGINT the total number of fantasy player users that transfered this player out for this fixture
+factGameweekMetricsPlayers player_fixture_fantasy_value INT the players fantasy value cost at the time of the fixture
+factGameweekMetricsPlayers last_data_update TIMESTAMP the last date and time that the data was updated
+
+
+dimGameweekLineupDesc fixture_lineup_desc_id INT IDENTITY(1,1) unique identifier for each fixture lineup description
+dimGameweekLineupDesc fixture_id BIGINT REFERENCES dimFixtures(fixture_id) unique identifier for each fixture
+dimGameweekLineupDesc home_team_name TEXT the name of the home team playing in the fixture
+dimGameweekLineupDesc home_team_formation TEXT the starting formation used by the home team in the fixture
+dimGameweekLineupDesc home_team_coach_id BIGINT unique identifier for the manager of the home team in the fixture
+dimGameweekLineupDesc home_team_coach TEXT name of the manager of the home team in the fixture
+dimGameweekLineupDesc away_team_name TEXT the name of the away team playing in the fixture
+dimGameweekLineupDesc away_team_formation TEXT the starting formation used by the away team in the fixture
+dimGameweekLineupDesc away_team_coach_id BIGINT unique identifier for the manager of the away team in the fixture
+dimGameweekLineupDesc away_team_coach TEXT name of the manager of the away team in the fixture
+dimGameweekLineupDesc last_data_update TIMESTAMP the last date and time that the data was updated
+
+
+dimGameweekLineupPlayers fixture_lineup_id INT IDENTITY(1,1) PRIMARY KEY unique identifier for each fixture lineup player entry
+dimGameweekLineupPlayers fixture_id BIGINT REFERENCES dimFixtures(fixture_id) unique identifier for each fixture
+dimGameweekLineupPlayers player_id BIGINT REFERENCES dimPlayers(player_id) unique identifier for each player
+dimGameweekLineupPlayers player_number INT the player squad number worn for the fixture
+dimGameweekLineupPlayers player_pos CHAR the player starting position in the line up
+dimGameweekLineupPlayers player_team_id BIGINT REFERENCES dimTeams(team_id) unique identifier for each team
+dimGameweekLineupPlayers lineup_type TEXT the players involvement in the line up e.g. starting 11 or substitute
+dimGameweekLineupPlayers last_data_update TIMESTAMP the last date and time that the data was updated
+
+
+factFixtureEvents event_id INT IDENTITY(1,1) PRIMARY KEY unique identifier for each event in a fixture
+factFixtureEvents fixture_id BIGINT REFERENCES dimFixtures(fixture_id) unique identifier for each fixture
+factFixtureEvents player_id BIGINT REFERENCES dimPlayers(player_id) unique identifier for each player
+factFixtureEvents team_id BIGINT REFERENCES dimTeams(team_id) unique identifier for each team
+factFixtureEvents assist_player_id BIGINT REFERENCES dimPlayers(player_id) unique identifier for each player that provides an assist, which can be either for a goal or a substitution
+factFixtureEvents event_detail TEXT text description of the event e.g. yellow card
+factFixtureEvents event_match_minute INT the minute of the game at which the event occured
+factFixtureEvents event_match_minute_plus INT the number of additional minutes added to regulation time when the event occured e.g. minute 37 would be 0, whereas as 3 in the first half would mean minute 45+3
+factFixtureEvents event_timestamp TIMESTAMP the date and time at which the event occured
+factFixtureEvents fixture_timestamp TIMESTAMP the date and time that the fixture kicked off at
+factFixtureEvents event_type TEXT the event type e.g. goal, card, foul etc.
+factFixtureEvents last_data_update TIMESTAMP the last date and time that the data was updated
