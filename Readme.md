@@ -18,20 +18,20 @@ I chose data from three seperate sources both due to complexity, completeness an
 
 The RapidAPI Football includes data on +630 football leagues & cups. Livescore (15s), odds, events, line-ups, coaches, players, top scorers, standings, statistics, transfers and match result predictions. This API was used to extract the majority of the data used in the project. From this source I extracted player season stats, team season stats, match events, individual fixture stats, fixture lineups, league standings and team squads.
 
-*This data is available in this repository here*
+[This data is available in this repository here](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Data)
 
 2. [Fifa 2019 Player Ratings - Kaggle Dataset](https://www.kaggle.com/karangadiya/fifa19) - CSV Format
 
 This publicly available kaggle dataset includes detailed attributes for every player registered in the latest edition of FIFA 19 database. This data is originally scraped from https://sofifa.com/ and is joined to each player to provide some additional perspective on their season performance and expectations given their in game rating.
 
-*This data is available in this repository here*
+[This data is available in this repository here](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Data/fifa-ratings)
 
 3. [Fantasy Premier League Performance](https://github.com/vaastav/Fantasy-Premier-League) - CSV Format
 
 The final piece of the data model is a Fantasy Premier League library that gets all the basic stats for each player, gameweek-specific data for each player and season history of each player, including how many fantasy players have selected a particular player for each gameweek round. I forked this repository on github before uploading the csv files to the project workspace. For more information on fantasy football see here:  
 https://fantasy.premierleague.com/
 
-[*This data is available in this repository here*]([a link](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/Data/fantasy-ratings)
+[This data is available in this repository here](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Data/fantasy-ratings)
 
 
 ---
@@ -51,68 +51,68 @@ All files needed to reproduce this project can be found here:
 
 #### Jupyter Notebook to run the project submission
 
-- CapstoneProject.ipynb:
-- helper_functions.py:
+- [CapstoneProject.ipynb](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/blob/master/CapstoneProject.ipynb): Jupyter notebook that runs through a step by step execution of each of the project steps to create the data warehouse
+- [helper_functions.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/blob/master/helper_functions.py): A collection of frequently used functions that are imported into the jupyter notebook for cleaner presentation of code.
 
 #### Extracting and Uploading Data
 
-- player_map_upload.py: Uploads the player mapping table csv to join the 3 data sources to the s3 bucket
-- player_fixture_stats_api_extract.py: Extracts stats for each player from each fixture from Rapid API and uploads the json file to the s3 bucket
-- fixture_events_api_extract.py: Extracts stats for each event from each fixture from Rapid API and uploads the json file to the s3 bucket
-- fixture_stats_api_extract.py: Extracts stats for team player from each fixture from Rapid API and uploads the json file to the s3 bucket
-- lineups_players_api_extract.py: Extracts each player lineup from each fixture from Rapid API and uploads the json file to the s3 bucket
-- player_stats_api_extract.py: Extracts season stats for each player from Rapid API and uploads the json file to the s3 bucket
-- squads_api_extract.py: Extracts each squad submitted by each team for the season from Rapid API and uploads the json file to the s3 bucket
-- lineups_desc_api_extract.py: Extracts descriptive information about each lineup from each fixture from Rapid API and uploads the json file to the s3 bucket
-- fixtures_api_extract.py: Extracts the season list of fixtures from Rapid API and uploads the json file to the s3 bucket
-- rounds_api_extract.py: Extracts the season list of gameweek rounds from Rapid API and uploads the json file to the s3 bucket
-- standings_api_extract.py: Extracts the season table standings from the final gameweek from Rapid API and uploads the json file to the s3 bucket
-- teams_api_extract.py: Extracts the list of teams involved in the season from Rapid API and uploads the json file to the s3 bucket
-- fantasy_ratings_overall_upload.py: Uploads the overall player fantasy ratings csv to the s3 bucket
-- fifa_ratings_upload.py: Uploads the player fifa 19 ratings csv to the s3 bucket
-- fantasy_ratings_gw_upload.py: Uploads the player fantasy ratings for each gameweek to the s3 bucket
-- json_filepath_upload.py: Uploads the json file paths needed to instruct the json COPY from s3 to Redshift, to the s3 bucket
-- api_upload_helpers.py: A set of reuseable functions to extract, format and upload data to s3
+- [player_map_upload.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Downloading/player_map_upload.py): Uploads the player mapping table csv to join the 3 data sources to the s3 bucket
+- [player_fixture_stats_api_extract.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Downloading/player_fixture_stats_api_extract.py): Extracts stats for each player from each fixture from Rapid API and uploads the json file to the s3 bucket
+- [fixture_events_api_extract.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Downloading/fixture_events_api_extract.py): Extracts stats for each event from each fixture from Rapid API and uploads the json file to the s3 bucket
+- [fixture_stats_api_extract.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Downloading/fixture_stats_api_extract.py): Extracts stats for team player from each fixture from Rapid API and uploads the json file to the s3 bucket
+- [lineups_players_api_extract.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Downloading/lineups_players_api_extract.py): Extracts each player lineup from each fixture from Rapid API and uploads the json file to the s3 bucket
+- [player_stats_api_extract.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Downloading/player_stats_api_extract.py): Extracts season stats for each player from Rapid API and uploads the json file to the s3 bucket
+- [squads_api_extract.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Downloading/squads_api_extract.py): Extracts each squad submitted by each team for the season from Rapid API and uploads the json file to the s3 bucket
+- [lineups_desc_api_extract.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Downloading/lineups_desc_api_extract.py): Extracts descriptive information about each lineup from each fixture from Rapid API and uploads the json file to the s3 bucket
+- [fixtures_api_extract.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Downloading/fixtures_api_extract.py): Extracts the season list of fixtures from Rapid API and uploads the json file to the s3 bucket
+- [rounds_api_extract.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Downloading/rounds_api_extract.py): Extracts the season list of gameweek rounds from Rapid API and uploads the json file to the s3 bucket
+- [standings_api_extract.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Downloading/standings_api_extract.py): Extracts the season table standings from the final gameweek from Rapid API and uploads the json file to the s3 bucket
+- [teams_api_extract.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Downloading/teams_api_extract.py): Extracts the list of teams involved in the season from Rapid API and uploads the json file to the s3 bucket
+- [fantasy_ratings_overall_upload.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Downloading/fantasy_ratings_overall_upload.py): Uploads the overall player fantasy ratings csv to the s3 bucket
+- [fifa_ratings_upload.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Downloading/fifa_ratings_upload.py): Uploads the player fifa 19 ratings csv to the s3 bucket
+- [fantasy_ratings_gw_upload.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Downloading/fantasy_ratings_gw_upload.py): Uploads the player fantasy ratings for each gameweek to the s3 bucket
+- [json_filepath_upload.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Downloading/json_filepath_upload.py): Uploads the json file paths needed to instruct the json COPY from s3 to Redshift, to the s3 bucket
+- [api_upload_helpers.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Downloading/api_upload_helpers.py): A set of reuseable functions to extract, format and upload data to s3
 
 #### Creating the Data Model and Staging Data
 
-- sql_stage_queries.py: SQL queries for dropping, creating and loading of staging table data from s3 into redshift 
-- sql_transform_load_queries.py: SQL queries for dropping and creating the analytical table skeletons in redshift 
-- create_db_skeleton_redshift.py: Runs each of the DROP, CREATE and COPY queries against the Redhshift database
+- [sql_stage_queries.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Staging/sql_stage_queries.py): SQL queries for dropping, creating and loading of staging table data from s3 into redshift 
+- [sql_transform_load_queries.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Staging/sql_transform_load_queries.py): SQL queries for dropping and creating the analytical table skeletons in redshift 
+- [create_db_skeleton_redshift.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Staging/create_db_skeleton_redshift.py): Runs each of the DROP, CREATE and COPY queries against the Redhshift database
 
 #### Transforming and Loading Data into Final Analytical Tables using Spark
 
-- gwMetricsPlayers_spark.py: Spark job that transforms player gameweek stats and loads it into the table in Redshift
-- seasonMetricsPlayers_spark.py: Spark job that transforms player season stats and loads it into the table in Redshift
-- seasonMetricsTeam_spark.py: Spark job that transforms team season stats and loads it into the table in Redshift
-- rounds_spark.py: Spark job that transforms gameweek rounds data and loads it into the table in Redshift
-- teams_spark.py: Spark job that transforms team description data and loads it into the table in Redshift
-- standings_spark.py: Spark job that transforms league standings data and loads it into the table in Redshift
-- squads_spark.py: Spark job that transforms team squads data and loads it into the table in Redshift
-- players_spark.py: Spark job that transforms player data and loads it into the table in Redshift
-- leagues_spark.py: Spark job that transforms league descriptive data and loads it into the table in Redshift
-- gwMetricsTeams_spark.py: Spark job that transforms team gameweek stats and loads it into the table in Redshift
-- gwLineupPlayers_spark.py: Spark job that transforms player gameweek lineup data and loads it into the table in Redshift
-- gwLineupDesc_spark.py: Spark job that transforms descriptive gameweek lineup data and loads it into the table in Redshift
-- fixtureEvents_spark.py: Spark job that transforms gameweek fixture events data and loads it into the table in Redshift
-- fixtures_spark.py: Spark job that transforms gameweek fixture list data and loads it into the table in Redshift
+- [gwMetricsPlayers_spark.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Transform_Load/gwMetricsPlayers_spark.py): Spark job that transforms player gameweek stats and loads it into the table in Redshift
+- [seasonMetricsPlayers_spark.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Transform_Load/seasonMetricsPlayers_spark.py): Spark job that transforms player season stats and loads it into the table in Redshift
+- [seasonMetricsTeam_spark.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Transform_Load/seasonMetricsTeam_spark.py): Spark job that transforms team season stats and loads it into the table in Redshift
+- [rounds_spark.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Transform_Load/rounds_spark.py): Spark job that transforms gameweek rounds data and loads it into the table in Redshift
+- [teams_spark.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Transform_Load/teams_spark.py): Spark job that transforms team description data and loads it into the table in Redshift
+- [standings_spark.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Transform_Load/standings_spark.py): Spark job that transforms league standings data and loads it into the table in Redshift
+- [squads_spark.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Transform_Load/squads_spark.py): Spark job that transforms team squads data and loads it into the table in Redshift
+- [players_spark.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Transform_Load/players_spark.py): Spark job that transforms player data and loads it into the table in Redshift
+- [leagues_spark.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Transform_Load/leagues_spark.py): Spark job that transforms league descriptive data and loads it into the table in Redshift
+- [gwMetricsTeams_spark.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Transform_Load/gwMetricsTeams_spark.py): Spark job that transforms team gameweek stats and loads it into the table in Redshift
+- [gwLineupPlayers_spark.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Transform_Load/gwLineupPlayers_spark.py): Spark job that transforms player gameweek lineup data and loads it into the table in Redshift
+- [gwLineupDesc_spark.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Transform_Load/gwLineupDesc_spark.py): Spark job that transforms descriptive gameweek lineup data and loads it into the table in Redshift
+- [fixtureEvents_spark.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Transform_Load/fixtureEvents_spark.py): Spark job that transforms gameweek fixture events data and loads it into the table in Redshift
+- [fixtures_spark.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Transform_Load/fixtures_spark.py): Spark job that transforms gameweek fixture list data and loads it into the table in Redshift
 
 #### Configuration Files
 
-- ars.cfg: Configuration file that includes all frequently used parameters for connections to s3, AWS and Redshift
-- RedshiftJDBC42-no-awssdk-1.2.45.1069.jar: driver used by Spark on execution of jobs to write data to Redshift tables 
-- rounds_path.json: json file path used by Redshift when copying json data from s3
-- team_squads_path.json: json file path used by Redshift when copying json data from s3
-- teams_path.json: json file path used by Redshift when copying json data from s3
-- fixture_player_stats_path.json: json file path used by Redshift when copying json data from s3
-- fixture_stats_path.json: json file path used by Redshift when copying json data from s3
-- player_stats_path.json: json file path used by Redshift when copying json data from s3
-- events_path.json: json file path used by Redshift when copying json data from s3
-- fixtures_path.json: json file path used by Redshift when copying json data from s3
-- standings_path.json: json file path used by Redshift when copying json data from s3
-- lineups_descriptive_path.json: json file path used by Redshift when copying json data from s3
-- lineup_players_path.json: json file path used by Redshift when copying json data from s3
-- player_map_table.csv: player mapping table raw csv used to create the player map staging table to join fantasy, fifa and game metrics by player
+- [ars.cfg](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Configs/ars.cfg): Configuration file that includes all frequently used parameters for connections to s3, AWS and Redshift
+- [RedshiftJDBC42-no-awssdk-1.2.45.1069.jar](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Configs/RedshiftJDBC42-no-awssdk-1.2.45.1069.jar): driver used by Spark on execution of jobs to write data to Redshift tables 
+- [rounds_path.json](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Data/json-paths/rounds_path.json): json file path used by Redshift when copying json data from s3
+- [team_squads_path.json](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Data/json-paths/team_squads_path.json): json file path used by Redshift when copying json data from s3
+- [teams_path.json](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Data/json-paths/teams_path.json): json file path used by Redshift when copying json data from s3
+- [fixture_player_stats_path.json](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Data/json-paths/fixture_player_stats.json): json file path used by Redshift when copying json data from s3
+- [fixture_stats_path.json](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Data/json-paths/fixture_stats_path.json): json file path used by Redshift when copying json data from s3
+- [player_stats_path.json](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Data/json-paths/player_stats_path.json): json file path used by Redshift when copying json data from s3
+- [events_path.json](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Data/json-paths/events_path.json): json file path used by Redshift when copying json data from s3
+- [fixtures_path.json](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Data/json-paths/fixtures_path.json): json file path used by Redshift when copying json data from s3
+- [standings_path.json](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Data/json-paths/standings_path.json): json file path used by Redshift when copying json data from s3
+- [lineups_descriptive_path.json](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Data/json-paths/lineups_descriptive_path.json): json file path used by Redshift when copying json data from s3
+- [lineup_players_path.json](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Data/json-paths/lineup_players_path.json): json file path used by Redshift when copying json data from s3
+- [player_map_table.csv](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Data/player_map/player_map_table.csv): player mapping table raw csv used to create the player map staging table to join fantasy, fifa and game metrics by player
 
 #### Airflow Specific Files
 
@@ -121,17 +121,17 @@ The following files are also included that are specific to running the airflow p
 
 #### DAG
 
-- capstone_dag.py: Airflow dag that extracts and loads data to s3, transfers to staging tables in Redshift and then transforms and upserts data into final analytical tables in Redshift via Spark
+- [capstone_dag.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/airflow/dags/capstone_dag.py): Airflow dag that extracts and loads data to s3, transfers to staging tables in Redshift and then transforms and upserts data into final analytical tables in Redshift via Spark
 
 #### Plugins and Custom Operators
 
-- reset_local_workspace.py: Deletes all files in folders that store extracted data from the API endpoints.
-- reset_s3_bucket.py: Deletes all objects and keys in the s3 bucket to clear out the pre-staging area.
-- data_quality.py: Checks for number of records and null values in each of the Redshift analytical tables
+- [reset_local_workspace.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/airflow/plugins/operators/reset_local_workspace.py): Deletes all files in folders that store extracted data from the API endpoints.
+- [reset_s3_bucket.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/airflow/plugins/operators/reset_s3_bucket.py): Deletes all objects and keys in the s3 bucket to clear out the pre-staging area.
+- [data_quality.py](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/airflow/plugins/operators_data_quality.py): Checks for number of records and null values in each of the Redshift analytical tables
 
 #### Data dictionary
 
-- data dictionary: A data dictionary referencing each table, column, data type and context description.
+- [data dictionary](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Configs/data_dictionary.txt): A data dictionary referencing each table, column, data type and context description.
 
 
 ---
@@ -148,7 +148,7 @@ For the data model I tried to keep the table entities in as close to 3rd Normal 
 
 To accurately capture this structure while minimising the number of potential SQL joins required by a user I organised the table entities into groups of fact and dimension tables that represent somewhat of a snowflake schema.
 
-The most important thing to take note when joining the staging tables together is the use of the player mapping table located in **/home/workspace/gh_project/Data/player_map/player_map_table.csv** and is also loaded to redshift for use as `staging_player_map_table`. This table consists of `original_player_id` (the player id extracted from each squad of the API data source) `fantasy_id` (the player_id from each player in the fantasy league stats data extract) and a `fifa_id` (the player_id for each player in the FIFA 19 data extract). I created this table to avoid any potential errors when joining on player names along as many player names include special characters, are duplicates or are inconsistent across the three sources.
+The most important thing to take note when joining the staging tables together is the use of the player mapping table located in [Data/player_map/player_map_table.csv](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/Data/player_map/player_map_table.csv) and is also loaded to redshift for use as `staging_player_map_table`. This table consists of `original_player_id` (the player id extracted from each squad of the API data source) `fantasy_id` (the player_id from each player in the fantasy league stats data extract) and a `fifa_id` (the player_id for each player in the FIFA 19 data extract). I created this table to avoid any potential errors when joining on player names along as many player names include special characters, are duplicates or are inconsistent across the three sources.
 
 These analytical table are described below. For further information see the schema diagram below and the data dictionary in Step 4:
 
