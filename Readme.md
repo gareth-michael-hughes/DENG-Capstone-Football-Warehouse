@@ -31,7 +31,7 @@ This publicly available kaggle dataset includes detailed attributes for every pl
 The final piece of the data model is a Fantasy Premier League library that gets all the basic stats for each player, gameweek-specific data for each player and season history of each player, including how many fantasy players have selected a particular player for each gameweek round. I forked this repository on github before uploading the csv files to the project workspace. For more information on fantasy football see here:  
 https://fantasy.premierleague.com/
 
-*This data is available in this repository here*
+[*This data is available in this repository here*]([a link](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/Data/fantasy-ratings)
 
 
 ---
