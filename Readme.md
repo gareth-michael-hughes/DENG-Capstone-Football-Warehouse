@@ -42,10 +42,9 @@ https://fantasy.premierleague.com/
 This project includes two standalone submission types:
 
 1. **An Ipython Jupyter notebook that can be used to execute each task within the project in chronological order.**  
-All files needed to reproduce this project can be found here:
 
 2. **An Airflow DAG that can be scheduled to run and produce the desired data warehouse as described.**  
-All files needed to reproduce this project can be found here:
+[All files needed to reproduce this project can be found here](https://github.com/gareth-michael-hughes/DENG-Capstone-Football-Warehouse/tree/master/airflow/).
 
 ### Files in the Repository
 
